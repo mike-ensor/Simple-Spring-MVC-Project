@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.dynacrongroup</groupId>
-    <artifactId>dynacron-webapp</artifactId>
+    <artifactId>simple-webapp</artifactId>
     <packaging>war</packaging>
     <version>0.1-SNAPSHOT</version>
     <name>${project.artifactId}</name>
@@ -10,31 +11,19 @@
     <url>http://${documentation.server.name}:8080/${project.context.path}</url>
 
     <organization>
-        <name>Dynacron Group</name>
-        <url>http://www.dynacrongroup.com</url>
+        <name>Click Concepts</name>
+        <url>http://www.ensor.cc</url>
     </organization>
 
     <developers>
 
         <developer>
-            <id>will.iverson</id>
-            <name>Will Iverson</name>
-            <email>will.iverson@dynacrongroup.com</email>
-            <organization>Dynacron Group</organization>
-            <roles>
-                <role>CTO</role>
-                <role>Architect</role>
-                <role>Game Designer</role>
-            </roles>
-        </developer>
-
-        <developer>
             <id>Mike!</id>
             <name>Mike Ensor</name>
-            <email>mike.ensor@dynacrongroup.com</email>
-            <organization>Dynacron Group</organization>
+            <email>mike@clickconcepts.com</email>
+            <organization>Click Concepts</organization>
             <roles>
-                <role>Lead Java Developer</role>
+                <role>Principal</role>
             </roles>
         </developer>
 
@@ -47,9 +36,10 @@
         <cargo.port>8080</cargo.port>
         <cargo.logging>medium</cargo.logging>
         <documentation.server.name>localhost</documentation.server.name>
-        <!-- UNCOMMENT when you're done with the artifactory server setup -->
-        <!--<cargo.tomcat.download>${project.artifactory.server}/artifactory/libs-releases-local/apache-tomcat/apache-tomcat/7.0.19/apache-tomcat-7.0.19.zip</cargo.tomcat.download>-->
-        <cargo.tomcat.download>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.19/bin/apache-tomcat-7.0.19.zip</cargo.tomcat.download>
+        <cargo.tomcat.download>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.19/bin/apache-tomcat-7.0.19.zip
+        </cargo.tomcat.download>
+        <!-- redefine in settings.xml to ${project.basedir} if you want to keep from downloading tomcat each run -->
+        <cargo.tomcat.installdir>${project.build.outputDirectory}</cargo.tomcat.installdir>
         <maven.build.timestamp.format>dd-MMM-yyyy hh:mm a</maven.build.timestamp.format>
         <project.artifactory.server>http://YOUR_ARTIFACTORY_SERVER:8081</project.artifactory.server>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -58,7 +48,7 @@
         <project.jdk.version>1.6</project.jdk.version>
         <tomcat.installdir>${project.build.directory}/cargo-tomcat</tomcat.installdir>
 
-        <plugin.cargo.version>1.1.2</plugin.cargo.version>
+        <plugin.cargo.version>1.1.3</plugin.cargo.version>
         <plugin.checkstyle-plugin.version>2.7</plugin.checkstyle-plugin.version>
         <plugin.jrebel.version>1.0.8</plugin.jrebel.version>
         <plugin.maven-compiler.version>2.3.2</plugin.maven-compiler.version>
@@ -168,7 +158,8 @@
                             <artifactId>maven-checkstyle-plugin</artifactId>
                             <version>${plugin.checkstyle-plugin.version}</version>
                             <configuration>
-                                <configLocation>${project.basedir}/src/main/config/code-analysis/checkstyle.xml</configLocation>
+                                <configLocation>${project.basedir}/src/main/config/code-analysis/checkstyle.xml
+                                </configLocation>
                                 <failsOnError>false</failsOnError>
                                 <enableRulesSummary>true</enableRulesSummary>
                                 <includeTestSourceDirectory>true</includeTestSourceDirectory>
@@ -262,7 +253,6 @@
                         <containerId>tomcat7x</containerId>
                         <zipUrlInstaller>
                             <url>${cargo.tomcat.download}</url>
-                            <!--<installDir>${cargo.tomcat.installdir}</installDir>-->
                             <downloadDir>${cargo.tomcat.installdir}</downloadDir>
                             <extractDir>${cargo.tomcat.installdir}</extractDir>
                         </zipUrlInstaller>
@@ -270,21 +260,6 @@
                             <application.environment>dev</application.environment>
                         </systemProperties>
                         <output>${project.build.directory}/tomcat.log</output>
-                        <dependencies>
-                            <!-- Dependencies for Resources in context.xml -->
-                            <dependency>
-                                <groupId>com.oracle</groupId>
-                                <artifactId>ojdbc6</artifactId>
-                            </dependency>
-                            <dependency>
-                                <groupId>net.sourceforge.jtds</groupId>
-                                <artifactId>jtds</artifactId>
-                            </dependency>
-                            <dependency>
-                                <groupId>mysql</groupId>
-                                <artifactId>mysql-connector-java</artifactId>
-                            </dependency>
-                        </dependencies>
                     </container>
                     <configuration>
                         <properties>
@@ -401,24 +376,6 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-core-asl</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
-            <version>3.1</version>
-        </dependency>
-
         <!-- Logging -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -440,35 +397,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>log4j-over-slf4j</artifactId>
-            <version>${slf4j.version}</version>
-            <exclusions>
-                <exclusion>
-                    <!-- Brought in by logback -->
-                    <artifactId>slf4j-api</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!-- End Logging -->
-
-        <!-- skinny war overlay Example -->
-        <!--<dependency>-->
-        <!--<groupId>com.dynacrongroup</groupId>-->
-        <!--<artifactId>template-or-other-overlay-as-skinny-war</artifactId>-->
-        <!--<version>0.00</version>-->
-        <!--<type>war</type>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>com.dynacrongroup</groupId>-->
-        <!--<artifactId>template-or-other-overlay-as-skinny-war</artifactId>-->
-        <!--<version>0.00</version>-->
-        <!--<type>jar</type>-->
-        <!--<classifier>classes</classifier>-->
-        <!--</dependency>-->
-
-        <dependency>
             <groupId>opensymphony</groupId>
             <artifactId>sitemesh</artifactId>
             <version>${sitemesh.version}</version>
@@ -486,52 +414,6 @@
             </exclusions>
         </dependency>
 
-        <!-- Needed for Web Services -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-            <version>${spring.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!-- Needed for Web Services -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-oxm</artifactId>
-            <version>${spring.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.ws</groupId>
-            <artifactId>spring-ws-core</artifactId>
-            <version>${spring-ws.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-aop</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-oxm</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
@@ -543,12 +425,6 @@
                     <artifactId>commons-logging</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-            <version>${spring.version}</version>
         </dependency>
 
         <!-- AOP dependency -->
@@ -589,24 +465,6 @@
 
         <!-- START general utility libraries -->
         <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-            <version>1.8.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>${joda-time.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
@@ -634,28 +492,7 @@
 
         <dependency>
             <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-core</artifactId>
-            <version>${hamcrest.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-integration</artifactId>
-            <version>${hamcrest.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-library</artifactId>
-            <version>${hamcrest.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-generator</artifactId>
             <version>${hamcrest.version}</version>
             <scope>test</scope>
         </dependency>
@@ -702,121 +539,9 @@
             <scope>provided</scope>
         </dependency>
         <!-- END Container Provided Libraries -->
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis</artifactId>
-            <version>${mybatis.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis-spring</artifactId>
-            <version>${mybatis-spring.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>mybatis</artifactId>
-                    <groupId>org.mybatis</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-core</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-tx</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-jdbc</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-context</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>ognl</groupId>
-            <artifactId>ognl</artifactId>
-            <version>${ognl.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.sourceforge.jtds</groupId>
-            <artifactId>jtds</artifactId>
-            <version>1.2.4</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc6</artifactId>
-            <version>11.2.0.2.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql-connector-java.version}</version>
-        </dependency>
-
     </dependencies>
 
     <profiles>
-        <profile>
-            <id>continuous-integration</id>
-            <activation>
-                <property>
-                    <name>agent.name</name>
-                </property>
-            </activation>
-            <properties>
-                <cargo.args/>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <version>${plugin.maven-compiler.version}</version>
-                        <configuration>
-                            <source>${project.jdk.version}</source>
-                            <target>${project.jdk.version}</target>
-                        </configuration>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.codehaus.cargo</groupId>
-                        <artifactId>cargo-maven2-plugin</artifactId>
-                        <version>${plugin.cargo.version}</version>
-                        <configuration>
-                            <container>
-                                <containerId>tomcat7x</containerId>
-                                <zipUrlInstaller>
-                                    <url>${cargo.tomcat.download}</url>
-                                    <downloadDir>${cargo.tomcat.installdir}</downloadDir>
-                                    <extractDir>${cargo.tomcat.installdir}</extractDir>
-                                </zipUrlInstaller>
-                                <systemProperties>
-                                    <application.environment>dev</application.environment>
-                                </systemProperties>
-                                <output>${project.build.directory}/tomcat.log</output>
-                                <dependencies>
-                                    <dependency>
-                                        <groupId>com.oracle</groupId>
-                                        <artifactId>ojdbc6</artifactId>
-                                    </dependency>
-                                    <dependency>
-                                        <groupId>net.sourceforge.jtds</groupId>
-                                        <artifactId>jtds</artifactId>
-                                    </dependency>
-                                </dependencies>
-                            </container>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
         <profile>
             <id>jrebel</id>
             <build>

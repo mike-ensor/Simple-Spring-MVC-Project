@@ -15,7 +15,8 @@
 
     <jee:jndi-lookup jndi-name="param/environment" id="environment" expected-type="java.lang.String"/>
 
-    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" p:basenames="messages"/>
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"
+          p:basenames="messages"/>
 
     <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
         <property name="converters">
@@ -26,8 +27,6 @@
     </bean>
 
     <context:component-scan base-package="com.dynacrongroup"/>
-
-    <bean id="objectMapper" class="org.codehaus.jackson.map.ObjectMapper"/>
 
     <!-- Start: MVC stuff -->
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
